@@ -124,7 +124,7 @@ export default function PoloClub() {
       {/* Dynamic Message Box */}
       {message && (
         <div className="fixed right-4 top-1/4 bg-white rounded-lg p-6 shadow-lg max-w-sm">
-          <p className={error ? 'text-red-500' : 'text-green-500'} font-medium text-xl>
+          <p className={`${error ? 'text-red-500' : 'text-green-500'} font-medium text-xl`}>
             {message}
           </p>
           {!error && timestamp && (
