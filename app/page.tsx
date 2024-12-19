@@ -37,7 +37,7 @@ export default function PoloClub() {
     }
 
     try {
-      const response = await fetch('https://a18679305ec1.ngrok.app/confirm_entry', {
+      const response = await fetch('https://6bf3a6ee5ec0.ngrok.app/confirm_entry', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
