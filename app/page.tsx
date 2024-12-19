@@ -22,48 +22,49 @@ export default function PoloClub() {
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (code !== '9763') {
-      setMessage('Código de portero inválido. Intente nuevamente.')
-      setError(true)
-      return
+      setMessage('Código de portero inválido. Intente nuevamente.');
+      setError(true);
+      return;
     }
 
     if (!id) {
-      setMessage('ID no encontrado en la URL.')
-      setError(true)
-      return
+      setMessage('ID no encontrado en la URL.');
+      setError(true);
+      return;
     }
 
     try {
-      const response = await fetch('https://6f059f9bdae2.ngrok.app/confirm_entry', {
+      const response = await fetch('https://360fced4d076.ngrok.app/confirm_entry', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        mode: 'cors', // Esto asegura que el navegador intente cumplir con las reglas de CORS
         body: JSON.stringify({
           id,
           security_code: code,
         }),
-      })
+      });
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (response.ok) {
-        setMessage(result.message)
-        setTimestamp(new Date().toLocaleTimeString())
-        setError(false)
+        setMessage(result.message);
+        setTimestamp(new Date().toLocaleTimeString());
+        setError(false);
       } else {
-        setMessage(result.error || 'Error al confirmar el ingreso.')
-        setError(true)
+        setMessage(result.error || 'Error al confirmar el ingreso.');
+        setError(true);
       }
     } catch (error) {
-      console.error('Error:', error)
-      setMessage('Error al conectar con el servidor.')
-      setError(true)
+      console.error('Error:', error);
+      setMessage('Error al conectar con el servidor.');
+      setError(true);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-cover bg-center relative flex" style={{
