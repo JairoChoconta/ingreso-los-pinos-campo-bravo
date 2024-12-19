@@ -1,27 +1,25 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 
 export default function PoloClub() {
-  const searchParams = useSearchParams()
   const [id, setId] = useState<string | null>(null)
   const [code, setCode] = useState('')
   const [message, setMessage] = useState('')
   const [timestamp, setTimestamp] = useState('')
   const [error, setError] = useState(false)
 
-  // Obtener el ID desde el query param
   useEffect(() => {
-    const guestId = searchParams.get('id')
+    const params = new URLSearchParams(window.location.search)
+    const guestId = params.get('id')
     if (guestId) {
       setId(guestId)
     } else {
       setMessage('ID no válido en la URL.')
       setError(true)
     }
-  }, [searchParams])
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,8 +37,7 @@ export default function PoloClub() {
     }
 
     try {
-      // Cambia la URL por la de tu servidor backend expuesto con ngrok
-      const response = await fetch('https://f2eba1a81cac.ngrok.app/confirm_entry', {
+      const response = await fetch('https://6f059f9bdae2.ngrok.app/confirm_entry', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
