@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { MenuCard } from "./menu-card";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { MenuCard } from './menu-card';
 
 interface MenuStats {
   [key: number]: number; // Representa menú y cantidad de comensales
@@ -13,25 +13,37 @@ export default function MenuPage() {
   const [error, setError] = useState(false);
 
   // Función para obtener los datos del backend
-  useEffect(() => {
-    const fetchMenuStats = async () => {
-      try {
-        const response = await fetch("https://ingreso-los-pinos-campo-bravo.vercel.app/api/menu_stats");
-        const result = await response.json();
+  const fetchMenuStats = async () => {
+    try {
+      const response = await fetch(
+        'http://localhost:5000/api/menu_stats'
+      );
+      const result = await response.json();
 
-        if (response.ok) {
-          setMenuStats(result.data);
-        } else {
-          console.error("Error al obtener los datos:", result.error);
-          setError(true);
-        }
-      } catch (error) {
-        console.error("Error al conectar con el backend:", error);
+      if (response.ok) {
+        setMenuStats(result.data);
+        setError(false); // Restablecer errores si la solicitud es exitosa
+      } else {
+        console.error('Error al obtener los datos:', result.error);
         setError(true);
       }
-    };
+    } catch (error) {
+      console.error('Error al conectar con el backend:', error);
+      setError(true);
+    }
+  };
 
+  useEffect(() => {
+    // Llama a la función inicialmente
     fetchMenuStats();
+
+    // Configura un intervalo para que se ejecute cada 30 minutos
+    const intervalId = setInterval(() => {
+      fetchMenuStats();
+    }, 3000); // 30 minutos en milisegundos
+
+    // Limpia el intervalo cuando se desmonta el componente
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
