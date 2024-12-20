@@ -12,12 +12,12 @@ export default function MenuPage() {
   const [menuStats, setMenuStats] = useState<MenuStats | null>(null);
   const [error, setError] = useState(false);
 
-  // Función para obtener los datos del backend
+  // Base URL del backend desde la variable de entorno
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const fetchMenuStats = async () => {
     try {
-      const response = await fetch(
-        'http://localhost:5000/api/menu_stats'
-      );
+      const response = await fetch(`${apiBaseUrl}/api/menu_stats`);
       const result = await response.json();
 
       if (response.ok) {
@@ -40,7 +40,7 @@ export default function MenuPage() {
     // Configura un intervalo para que se ejecute cada 30 minutos
     const intervalId = setInterval(() => {
       fetchMenuStats();
-    }, 3000); // 30 minutos en milisegundos
+    }, 3000); // 30 segundos en milisegundos
 
     // Limpia el intervalo cuando se desmonta el componente
     return () => clearInterval(intervalId);
